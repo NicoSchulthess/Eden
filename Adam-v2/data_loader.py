@@ -1,16 +1,10 @@
 
 import os
-import torch
-import random
-import copy
-import csv
 from PIL import Image
 import numpy as np
 from torch.utils.data import Dataset
 import numpy as np
 import math
-import cv2
-import medpy.io
 
 class CXRDataset(Dataset):
   def __init__(self, images_path, file_path, augment, data_granularity=0):

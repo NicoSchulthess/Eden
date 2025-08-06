@@ -1,4 +1,5 @@
 
+import argparse
 import os
 import sys
 import time
@@ -7,12 +8,13 @@ import random
 import datetime
 import subprocess
 from collections import defaultdict, deque
+import warnings
 
 import numpy as np
 import torch
 from torch import nn
 import torch.distributed as dist
-from PIL import ImageFilter, ImageOps
+from PIL import ImageFilter
 import yaml
 
 def get_config(config):
@@ -351,6 +353,7 @@ def init_distributed_mode(args):
     # launched with submitit on a slurm cluster
     elif 'SLURM_PROCID' in os.environ:
         args.rank = int(os.environ['SLURM_PROCID'])
+        args.world_size = torch.cuda.device_count()
         args.gpu = args.rank % torch.cuda.device_count()
     # launched naively with `python main_dino.py`
     # we manually add MASTER_ADDR and MASTER_PORT to env variables
@@ -401,7 +404,7 @@ def _no_grad_trunc_normal_(tensor, mean, std, a, b):
         return tensor
 
 def trunc_normal_(tensor, mean=0., std=1., a=-2., b=2.):
-    # type: (Tensor, float, float, float, float) -> Tensor
+    # type: (torch.Tensor, float, float, float, float) -> torch.Tensor
     return _no_grad_trunc_normal_(tensor, mean, std, a, b)
 
 class LARS(torch.optim.Optimizer):

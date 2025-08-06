@@ -1,11 +1,5 @@
 
 import argparse
-import os
-import sys
-import datetime
-import time
-import math
-import json
 from pathlib import Path
 from trainer_l import train_l
 from trainer_lcd import train_lcd
@@ -14,7 +8,7 @@ import utils
 def get_args_parser():
     parser = argparse.ArgumentParser('Adam-v2', add_help=False)
     parser.add_argument('--arch', default='resnet50', type=str,
-        choices=['resnet50,convnext_base'],
+        choices=['resnet50', 'convnext_base'],
         help="Backbone architecture")
     parser.add_argument('--patch_size', default=16, type=int, help="For ViT backbone")
     parser.add_argument('--out_dim', default=65536, type=int, help="Dimensionality of Localizability Head.")
@@ -56,7 +50,7 @@ def get_args_parser():
     parser.add_argument('--num_workers', default=10, type=int, help='Number of data loading workers per GPU.')
     parser.add_argument("--dist_url", default="env://", type=str, help="""url used to set up
         distributed training""")
-    parser.add_argument("--local_rank", default=0, type=int, help="Please ignore and do not set this argument.")
+    parser.add_argument("--local_rank", "--local-rank", default=0, type=int, help="Please ignore and do not set this argument.")
     parser.add_argument("--weights", default=None, type=str, help="weights")
     parser.add_argument('--data_granularity', default='0-1-2', type=str, help='coarse to fine learning, 0,1,2')
     parser.add_argument('--mode', default='LCD', type=str, help='L|LCD')

@@ -14,10 +14,9 @@ import torch.nn as nn
 import torch.distributed as dist
 import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
-from torchvision import datasets, transforms
+from torchvision import transforms
 from torchvision import models as torchvision_models
 from data_loader import CXRDataset
-import shutil
 import utils
 from models import LocalizabilityHead
 from utils import get_config
